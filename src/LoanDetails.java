@@ -33,7 +33,7 @@ public class LoanDetails {
     this.term = termInput;
   }
 
-  public void setTerm(Date requestDateInput) {
+  public void setRequestDate(Date requestDateInput) {
     this.requestDate = requestDateInput;
   }
 }
