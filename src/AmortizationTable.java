@@ -5,11 +5,8 @@ import java.util.InputMismatchException;
 public class AmortizationTable {
 
   double calculateMonthlyPayment(LoanDetails details) {
-    double a = details.loanAmount;
-    int n = details.term;
-    double i = calculateInterest(details);
-    double monthlyPayment = a*(Math.pow((1+i),n)*i)/((Math.pow((1+i),n))-1);
-    System.out.println(monthlyPayment);
+    double interest = (details.interest *.01)/12;
+    double monthlyPayment = details.loanAmount * (Math.pow((1+interest),details.term)*interest)/((Math.pow((1+interest),details.term))-1);
     return monthlyPayment;
   };
 
@@ -17,20 +14,18 @@ public class AmortizationTable {
     double monthlyPayment = calculateMonthlyPayment(details);
     double monthlyInterestRate = details.interest/12;
     double interestPaid  = details.loanAmount * (monthlyInterestRate / 100);
-    double principalPaid = monthlyPayment - interestPaid;
-    double newBalance    = details.loanAmount;
+    double principal = monthlyPayment - interestPaid;
+    double startBalance = details.loanAmount;
+    double endBalance = startBalance - principal;
+    System.out.format("\n%8s %12s %10s %10s %10s %12s\n","Date", "Start Balance", "Principal", "Interest", "Total Pmt", "Balance");
 
     for (int month = 1; month <= details.term; month++) {
-      System.out.format("%8d %10.2f %10.2f %10.2f %12.2f\n", month, interestPaid, principalPaid, monthlyPayment, newBalance);
-      newBalance    = newBalance - principalPaid;
-      interestPaid  = newBalance * (monthlyInterestRate/100);
-      principalPaid = monthlyPayment - interestPaid;
+      System.out.format("%8d %12.2f %10.2f %10.2f %10.2f %12.2f\n", month, startBalance, principal, interestPaid, monthlyPayment, endBalance);
+      startBalance = endBalance;
+      endBalance = endBalance - principal;
+      interestPaid  = startBalance * (monthlyInterestRate/100);
+      principal = monthlyPayment - interestPaid;
     }
-  };
-
-  double calculateInterest( LoanDetails details ) {
-    double interest = (details.interest *.01)/12;
-    return interest;
   };
 
   public static void main(String[] args) throws Exception {
@@ -49,7 +44,7 @@ public class AmortizationTable {
         details.term = input.nextInt();
     
         System.out.println("Enter the Interest Rate: ");
-        details.interest = input.nextFloat();
+        details.interest = input.nextDouble();
     
         // System.out.println("Enter the requested date in (DD-MM-YYYY):");
         // String date = input.next();
