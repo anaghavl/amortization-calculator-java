@@ -1,9 +1,9 @@
 import java.util.Scanner;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.InputMismatchException;
 public class AmortizationTable {
 
   // Calculate the monthly payment
