@@ -1,4 +1,5 @@
 import java.util.Date;
+
 public class LoanDetails {
   private Double interest;
   private Double loanAmount;
